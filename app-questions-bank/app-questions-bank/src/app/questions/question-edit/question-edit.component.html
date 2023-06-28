@@ -1,0 +1,85 @@
+<app-header>
+  <h3 content>Edit Question</h3>
+</app-header>
+
+<div class="container">
+  <form [formGroup]="editQuestionForm" (ngSubmit)="onSubmit()" #formElement="ngForm">
+    <div class="form-group">
+      <label for="name">Question Name</label>
+      <input type="text" id="name" class="form-control" formControlName="name" required>
+    </div>
+    <div class="form-group">
+      <label for="levelId">Level</label>
+      <select id="levelId" class="form-control" formControlName="levelId" required>
+        <option value="">Choose a level</option>
+        <option value="1">Easy</option>
+        <option value="2">Medium</option>
+        <option value="3">Hard</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="category">Category</label>
+      <select id="category" class="form-control" formControlName="category" required>
+        <option value="">Choose a Category</option>
+        <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="subCategory">Sub-Category</label>
+      <select id="subCategory" class="form-control" formControlName="subCategory" required>
+        <option value="">Choose a Sub-Category</option>
+        <option *ngFor="let subCategory of subCategories[this.editQuestionForm.get('category').value]" [value]="subCategory">{{subCategory}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="mark">Mark</label>
+      <input type="number" id="mark" class="form-control" formControlName="mark" required>
+    </div>
+    <div class="form-group">
+      <label for="expectedTime">Expected Time (Minutes)</label>
+      <input type="number" id="expectedTime" class="form-control" formControlName="expectedTime" required>
+    </div>
+
+    <div formArrayName="answers">
+      <div *ngFor="let answer of answerControls; let i=index" class="form-group">
+        <div [formGroupName]="i">
+          <!--  Answer id -->
+          <label for="answerName">Answer {{i+1}}</label>
+          <!--  Answer Name -->
+          <input type="text" id="answerName" class="form-control" formControlName="answerName" required>
+          <!--  Answer Description -->
+          <label for="answerDescription">Answer Description</label>
+          <textarea id="answerDescription" class="form-control" formControlName="answerDescription" required></textarea>
+          <!-- correct Answer Ids -->
+          <input type="checkbox"
+                 [checked]="checkIndexInList(i, editQuestionForm.get('correctAnswerIds').value)"
+                 (change)="onAnswerChecked($event.target.checked, i)">
+        </div>
+        <button class="btn btn-outline-danger btn-sm mt-2 mt-sm-0"
+                *ngIf="this.answersFormArray.length > 1"
+                (click)="removeAnswerFormGroup(i)">
+          Delete
+        </button>
+      </div>
+      <br>
+      <button type="button" class="btn btn-outline-primary" (click)="addAnswerFormGroup()">
+        Add answer
+      </button>
+    </div>
+    <hr>
+    <div class="d-grid gap-2 d-md-block">
+      <button type="submit" class="btn btn-outline-success" [disabled]="!formElement.form.valid || editQuestionForm.get('correctAnswerIds').value.length == 0">
+        Submit
+      </button>
+      <button type="button" class="btn btn-outline-secondary" (click)="onReset()">Reset</button>
+      <button type="button" class="btn btn-outline-warning" (click)="onBack()">Back</button>
+    </div>
+  </form>
+  <br>
+  <br>
+  <br>
+  <br>
+</div>

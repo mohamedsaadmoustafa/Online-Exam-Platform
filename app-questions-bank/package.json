@@ -1,0 +1,24 @@
+{
+  "name": "app-questions-bank",
+  "dependencies": {
+    "@angular-devkit/build-angular": "^16.0.2",
+    "@angular/animations": "^16.0.2",
+    "@angular/cdk": "^16.0.1",
+    "@angular/cli": "^16.0.2",
+    "@angular/core": "^16.0.2",
+    "@angular/forms": "^16.0.2",
+    "@angular/platform-browser": "^16.0.2",
+    "@angular/platform-browser-dynamic": "^16.0.2",
+    "@angular/router": "^16.0.2",
+    "@popperjs/core": "^2.11.7",
+    "bootstrap": "^5.2.3",
+    "bootstrap-icons": "^1.10.5",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.7.0",
+    "ngx-logger": "^5.0.12",
+    "ngx-pagination": "^6.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  }
+}

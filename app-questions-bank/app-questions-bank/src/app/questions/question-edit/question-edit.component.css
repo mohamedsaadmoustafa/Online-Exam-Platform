@@ -1,0 +1,16 @@
+input.ng-invalid.ng-touched , textarea.ng-invalid.ng-touched{
+    border: 2px solid red;
+}
+
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.btn-gap {
+  margin-right: 1rem;
+}

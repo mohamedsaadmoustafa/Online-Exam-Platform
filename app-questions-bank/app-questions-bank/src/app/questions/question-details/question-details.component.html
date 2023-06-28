@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="row">
+    <!--    <div class="col-md-4">-->
+    <!--      <p>ID:</p>-->
+    <!--      <h4>{{ questionDetails.id }}</h4>-->
+    <!--    </div>-->
+    <div class="col-md-6">
+      <p>Name:</p>
+      <h4>{{ questionDetails.name | uppercase }}</h4>
+    </div>
+    <div class="col-md-6">
+      <p>Level ID:</p>
+      <h4>{{ questionDetails.levelId }}</h4>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-md-6">
+      <p>Category:</p>
+      <h4>{{ questionDetails.category }}</h4>
+    </div>
+    <div class="col-md-6">
+      <p *ngIf="questionDetails.subCategory">Sub Category:</p>
+      <h4 *ngIf="questionDetails.subCategory">{{ questionDetails.subCategory }}</h4>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-md-6">
+      <p>Mark:</p>
+      <h4>{{ questionDetails.mark }}</h4>
+    </div>
+    <div class="col-md-6">
+      <p>Expected Time:</p>
+      <h4>{{ questionDetails.expectedTime }}</h4>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-md-4">
+      <p>Created By:</p>
+      <h4>{{ questionDetails.createdBy }}</h4>
+    </div>
+    <div class="col-md-6">
+      <p>Created At:</p>
+      <h4>{{ questionDetails.createdAt | date }}</h4>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-md-12">
+      <p *ngIf="questionDetails.correctAnswerIds.length > 0">Correct Answer IDs:</p>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let correctAnswerId of questionDetails.correctAnswerIds;  let i = index">
+          <p>ID {{i}}: {{ correctAnswerId }}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row"  *ngIf="questionDetails.answers.length > 0">
+    <div class="col-md-12">
+      <p>Answers:</p>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let answer of questionDetails.answers; let answer_index = index">
+          <p>Answer Name: {{ answer.answerName }}</p>
+          <p>Answer Description: {{ answer.answerDescription }}</p>
+          <td>
+            <button class="btn btn-outline-danger btn-sm mt-2 mt-sm-0"
+                    *ngIf="questionDetails.answers.length > 1"
+                    (click)="removeAnswer(answer_index)">
+              Delete
+            </button>
+          </td>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+<button class="btn btn-primary mb-3" [routerLink]="['/questions']">Hide details</button>
