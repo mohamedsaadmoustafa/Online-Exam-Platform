@@ -1,0 +1,52 @@
+<app-header [title]="'Exam Engine'">
+</app-header>
+
+<div class="container mt-5" *ngIf="userRole==='student'; else dashboardRedirect">
+
+  <div class="container my-5">
+    <form action="#" method="post" id="quiz-form">
+      <div class="card mb-3 question" data-question="2">
+        <!--
+              ToDo:
+        -->
+        <h5 class="card-header text-center">Question {{ currentQuestionIndex + 1 }}</h5>
+        <div class="card-body" *ngIf="questions.length > 0">
+          <p class="card-text text-center">{{ currentQuestion!.name }}?</p>
+          <br>
+
+          <div class="form-check" *ngFor="let answer of currentQuestion!.answers; let i=index">
+            <input class="form-check-input"
+                   type="checkbox"
+                   name="question1[]"
+                   [value]="answer['id']"
+                   [(ngModel)]="selectedAnswers[i]"
+                   (change)="isAnswerSelected = selectedAnswers.includes(true)">
+            <label class="form-check-label">{{ answer['answerName'] }} - {{ answer['answerDescription'] }}</label>
+          </div>
+
+          <br>
+          <br>
+
+          <div class="d-flex justify-content-between">
+
+            <button type="button" class="btn btn-light mr-auto"
+                    (click)="nextQuestion()"
+                    *ngIf="0 <= currentQuestionIndex && currentQuestionIndex < questions!.length "
+                    [disabled]="!isAnswerSelected">
+              Next
+            </button>
+          </div>
+          <span>{{ getRemainingTime }}</span> seconds left
+
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<ng-template #dashboardRedirect>
+  <ng-container>
+    <p>You must be a student to access this page.</p>
+    <button  type="button" class="btn btn-outline-light mr-auto" routerLink="/dashboard">Go to dashboard</button>
+  </ng-container>
+</ng-template>

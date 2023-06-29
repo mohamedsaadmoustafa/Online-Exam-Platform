@@ -1,0 +1,58 @@
+<app-header [title]="'Exam Engine'"></app-header>
+
+
+<div class="container mt-5">
+  <h1 class="text-center my-5">Exam Summaries</h1>
+  <hr class="line">
+  <br>
+  <br>
+  <div *ngIf="userRole==='student' && examSummaries.length>0; else dashboardRedirect">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div *ngFor="let exam of examSummaries; let i=index" class="col-md-4">
+
+        <div class="card">
+          <div class="card-header">
+            <!--          <h5 class="card-title">{{'Exam ' + (i+1)}}</h5>-->
+            <p class="card-subtitle mb-2 text-muted">Exam Instance Id {{exam.examInstanceId}}</p>
+          </div>
+          <div class="card-body">
+            <p class="card-text"><strong>Score:</strong> {{exam.score}}</p>
+            <p class="card-text"><strong>Status:</strong> {{exam.status}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br><br>
+    <nav aria-label="Page navigation example"  *ngIf="this.examSummaries.length>0">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <button class="page-link btn btn-light" tabindex="-1"
+                  *ngIf="currentPage > 1"
+                  (click)="loadExamSummaryByStudentId(currentPage - 1)">
+            Previous
+          </button>
+        </li>
+        <li class="page-item"><a class="page-link btn btn-light" style="cursor:pointer;">Page {{currentPage}} of {{Math.ceil(count / pageSize)}}</a></li>
+        <li class="page-item">
+          <button class="page-link btn btn-light"
+                  *ngIf="currentPage < Math.ceil(count / pageSize)"
+                  (click)="loadExamSummaryByStudentId(currentPage + 1)">
+            Next
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <div class="text-center mt-4">
+      <a class="btn btn-light" routerLink="/student">Back to dashboard</a>
+    </div>
+
+  </div>
+</div>
+<ng-template #dashboardRedirect>
+  <ng-container *ngIf="examSummaries.length===0">
+    <div class="text-center mt-4">
+      <h2>No Exams for you.</h2>
+    </div>
+  </ng-container>
+</ng-template>

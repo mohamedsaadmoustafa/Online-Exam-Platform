@@ -1,0 +1,69 @@
+<app-header [title]="'Create Exam Definition'"></app-header>
+
+
+<div class="container mt-5" *ngIf="userRole==='teacher'">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <form [formGroup]="newDefinitionForm" (ngSubmit)="onSubmit()">
+
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" id="name" class="form-control" formControlName="name">
+          <div *ngIf="newDefinitionForm.get('name')!.invalid && newDefinitionForm.get('name')!.touched"
+               class="text-danger small">
+            Please enter a name.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="passingScore" class="form-label">Passing Score</label>
+          <input type="number" id="passingScore"
+                 class="form-control"
+                 min="0.05" max="0.95" step="0.05"
+                 formControlName="passingScore">
+          <div *ngIf="newDefinitionForm.get('passingScore')!.invalid && newDefinitionForm.get('passingScore')!.touched"
+               class="text-danger small">
+            Please enter a passing score.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="category" class="form-label">Category</label>
+          <select id="category" class="form-select" formControlName="category" (change)="onCategorySelect()">
+            <option value="">Select category</option>
+            <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+          </select>
+          <div *ngIf="newDefinitionForm.get('category')!.invalid && newDefinitionForm.get('category')!.touched"
+               class="text-danger small">
+            Please select a category.
+          </div>
+        </div>
+
+        <div class="mb-3" *ngIf="questionControls.controls.length">
+          <label class="form-label">Questions</label>
+          <div formArrayName="questions" *ngFor="let question of questionControls.controls; let i=index">
+            <div [formGroupName]="i" class="form-check">
+              <input type="checkbox"
+                     class="form-check-input"
+                     formControlName="checked"
+                     id="{{question.value.id}}"
+                     (change)="onCheckboxChange($event, i)">
+              <label class="form-check-label" for="{{question.value.id}}">{{question.value.name}}</label>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-secondary mt-2" (click)="resetSelectedQuestions()">Reset Selections</button>
+          <div *ngIf="questionControls.invalid && questionControls.touched" class="text-danger small">
+            Please select at least one question.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <button type="submit" class="btn btn-outline-primary" [disabled]="!newDefinitionForm.valid || !selectedQuestionIds.length">Submit</button>
+          <button type="button" class="btn btn-outline-secondary me-2" (click)="onReset()">Reset</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="onBack()">Cancel</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

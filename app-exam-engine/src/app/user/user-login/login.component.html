@@ -1,0 +1,33 @@
+<app-header [title]="'Exam Engine'"> <!-- change this -->
+</app-header>
+
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2>Login</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" id="username" formControlName="username" required>
+          <div *ngIf="loginForm.get('username')!.invalid && loginForm.get('username')!.touched" class="text-danger">
+            Username is required
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" formControlName="password" required minlength="6">
+          <div *ngIf="loginForm.get('password')!.invalid && loginForm.get('password')!.touched" class="text-danger">
+            Password is required and must be at least 6 characters long
+          </div>
+        </div>
+
+        <p>Don't have an account? <a routerLink="/register">Sign up</a></p>
+        <button type="submit" class="btn btn-outline-primary" [disabled]="!loginForm.valid || !loginForm.touched">Login</button>
+        <div *ngIf="loading">
+          <i class="fa fa-spinner fa-spin"></i> Logging...
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

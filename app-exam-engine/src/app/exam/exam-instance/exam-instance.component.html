@@ -1,0 +1,81 @@
+<app-header [title]="'Exam Instance Engine'"></app-header>
+
+<div class="container mt-5" *ngIf="userRole==='teacher'">
+
+  <h1 class="mb-4">Assign Exam Instance</h1>
+  <form [formGroup]="newInstanceForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="examDefinition" class="form-label">Exam Definition</label>
+      <div class="mb-3">
+        <select class="form-select" id="examDefinition" name="examDefinition"
+                formControlName="examDefinition" required>
+          <option value="">Choose...</option>
+          <option *ngFor="let examDef of examDefinitions" [value]="examDef.id">{{examDef.name}}</option>
+        </select>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="mb-3" *ngIf="allStudents">
+      <label class="form-label">Students</label>
+      <div formArrayName="students">
+        <div *ngFor="let student of allStudents">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input"
+                   [id]="student.email" [value]="student" (change)="onCheckboxChange(student)">
+            <label class="form-check-label" [for]="student.email">{{student.firstName}} {{student.lastName}} - {{student.email}}</label>
+          </div>
+        </div>
+
+        <div *ngIf="studentControls.invalid && studentControls.touched" class="text-danger small">
+          Please select at least one student.
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="mb-3">
+      <label for="durationInMinutes" class="form-label">Duration (in minutes)</label>
+      <input type="number" class="form-control" id="durationInMinutes"
+             name="durationInMinutes" formControlName="durationInMinutes"
+             min="1" required
+      >
+    </div>
+
+    <hr>
+
+    <div class="row mb-3">
+      <h2 class="col-md-4">Generated Link: </h2>
+      <div class="col-md-4 mb-3">
+        <label for="generatedLink_from" class="form-label">Scheduled Time From</label>
+        <input type="datetime-local" class="form-control" id="generatedLink_from" name="generatedLink_from"
+               formControlName="generatedLink_from" required
+               [min]="getCurrentDateTime()"
+        >
+      </div>
+      <div class="col-md-4 mb-3">
+        <label for="generatedLink_to" class="form-label">Scheduled Time To</label>
+        <input type="datetime-local" class="form-control" id="generatedLink_to" name="generatedLink_to"
+               formControlName="generatedLink_to" required
+               [min]="newInstanceForm.get('generatedLink_from')!.value"
+               [max]="getMaxDateTime()"
+        >
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="mb-3">
+      <button type="submit" class="btn btn-primary me-2"
+              [disabled]="!newInstanceForm.valid || !selectedStudents.length">
+        Submit
+      </button>
+      <button type="button" class="btn btn-outline-secondary me-2" (click)="onReset()">Reset</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="onBack()">Cancel</button>
+    </div>
+
+  </form>
+</div>
+

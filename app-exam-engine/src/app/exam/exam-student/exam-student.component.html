@@ -1,0 +1,63 @@
+<app-header [title]="'Exam Engine'"></app-header>
+
+
+<div class="container mt-5">
+  <h1 class="text-center my-5">Welcome {{userName}}</h1>
+  <hr class="line">
+
+  <!--  ToDo: add notifications here-->
+  <ng-container *ngIf="notification != ''; else noMessage">
+    <div class="text-center mt-4" >
+      <app-notification type="success" message={{notification}} url={{generatedLinkUrl}}></app-notification>
+    </div>
+  </ng-container>
+
+  <ng-template #noMessage>
+    <div class="text-center mt-4" >No messages to display.</div>
+  </ng-template>
+
+  <hr class="line">
+  <br>
+
+  <div *ngIf="userRole==='student' && examInstances.length>0; else dashboardRedirect">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div *ngFor="let exam of examInstances; let i=index" class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">{{'Exam ' + (i+1)}}</h5>
+          <p class="card-subtitle mb-2 text-muted">Assigned by {{exam.assignedBy}}</p>
+        </div>
+        <div class="card-body">
+          <p class="card-text"><strong>Duration:</strong> {{exam.durationInMinutes}} minutes</p>
+<!--          <p class="card-text"><strong>Questions:</strong> {{exam.questions.length()}}</p>-->
+          <p class="card-text"><strong>Started at:</strong> {{exam.generatedLink.scheduledTimeFrom | date:'medium'}}</p>
+          <p class="card-text"><strong>Expired at:</strong> {{exam.generatedLink.scheduledTimeTo | date:'medium'}}</p>
+          <hr>
+
+          <div class="text-center mt-4">
+            <button class="btn btn-outline-primary"(click)="startExam(exam)">  Start Exam</button>
+          </div>
+
+          <br>
+          <br>
+          <div class="text-center mt-4">
+            <a class="btn btn-light" routerLink="/exam-summary">Go to Exam Summary</a>
+          </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #dashboardRedirect>
+  <ng-container *ngIf="examInstances.length===0">
+    <div class="text-center mt-4">
+      <h2>No Exams for you.</h2>
+    </div>
+    <br>
+    <br>
+    <div class="text-center mt-4">
+      <a class="btn btn-light" routerLink="/exam-summary">Go to Exam Summary</a>
+    </div>
+  </ng-container>
+</ng-template>

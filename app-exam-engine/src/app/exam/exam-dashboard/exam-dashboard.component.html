@@ -1,0 +1,13 @@
+<app-header [title]="'Exam Engine'"></app-header>
+
+
+<div class="container mt-5" *ngIf="!loggedIn">
+  <h1 class="text-center my-5">Welcome To Exam Engine</h1>
+  <br>
+
+  <div class="d-flex justify-content-center">
+    <button class="btn btn-outline-success mx-2" routerLink="/login">Login</button>
+    <button class="btn btn-outline-success ms-2" routerLink="/register">Register</button>
+  </div>
+</div>
+

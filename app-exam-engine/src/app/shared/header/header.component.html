@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a routerLink="/">
+      <img src="../../../assets/icons/exam.png" alt="Exam icon" class="flip mr-2" style="max-height: 50px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+
+        <div *ngIf="isLoggedIn(); then loggedIn else notLoggedIn"></div>
+
+        <ng-template #notLoggedIn>
+          <li class="nav-item">
+            <a class="nav-link" style="cursor:pointer;" routerLink="/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" style="cursor:pointer;" routerLink="/register">Register</a>
+          </li>
+        </ng-template>
+
+        <ng-template #loggedIn>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" style="cursor:pointer;" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Hello, {{ getName() }}!
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" style="cursor:pointer;" routerLink="/logout" (click)="logout()">Logout</a></li>
+            </ul>
+          </li>
+        </ng-template>
+
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="header mt-3">
+  <ng-content select="[content]"></ng-content>
+</div>

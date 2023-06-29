@@ -1,0 +1,26 @@
+<app-header [title]="'Exam Engine'"> <!-- change this -->
+</app-header>
+
+<div class="container">
+  <div class="container mt-5" *ngIf="userRole==='student'; else dashboardRedirect">
+    <div class="container my-5">
+      <form action="#" method="post" id="quiz-form">
+        <div class="card mb-3 question text-center" data-question="2">
+          <h2 class="card-header">Exam Finished</h2>
+          <p>Thank You for Your Time</p>
+        </div>
+        <div class="text-center">
+          <button type="button" class="btn btn-outline-success" (click)="onBack()">Back</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #dashboardRedirect>
+  <ng-container>
+    <p>You must be a student to access this page.</p>
+    <button class="btn btn-outline-success" routerLink="/dashboard">Go to dashboard</button>
+  </ng-container>
+</ng-template>
