@@ -1,6 +1,7 @@
 package com.example.notifications.service;
 
 import com.example.notifications.model.NotificationModel;
+import com.example.notifications.util.HelperUtil;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
@@ -17,13 +18,19 @@ public class FirebaseMessagingService {
     private static final Logger LOGGER = LoggerFactory.getLogger(FirebaseMessagingService.class);
 
     private final FirebaseMessaging firebaseMessaging;
+    private final HelperUtil helperUtil;
 
-    public FirebaseMessagingService(FirebaseMessaging firebaseMessaging) {
+    public FirebaseMessagingService(
+            FirebaseMessaging firebaseMessaging,
+            HelperUtil helperUtil) {
         this.firebaseMessaging = firebaseMessaging;
+        this.helperUtil = helperUtil;
     }
 
-    public void sendNotification(NotificationModel notificationModel, String token) throws FirebaseMessagingException {
-        token = "fKIaLaAPmWdiXZlM08RhdR:APA91bEg9cPnkFkD7UqXmpxGNV1y11DoClpMk1USXPNJ4WSUCIDP4ImJqispZvLlTV4BLE653Xlx5vUwnfewE9SnXtg4AXJq8oB0n-OuuDNgO6mEXb7N8M4p8PSg-8v_u7-NBgN-Whxx";
+    public void sendNotification(NotificationModel notificationModel) throws FirebaseMessagingException {
+
+        String token = helperUtil.getFirebaseToken(notificationModel.getUserId());
+        System.out.println(token);
         Map<String, String> myMap = new HashMap<>();
 
         // Adding key-value pairs to the map

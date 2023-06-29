@@ -1,7 +1,7 @@
 package com.example.user.controller;
 
-import com.example.user.http.requests.RegisterRequest;
 import com.example.user.http.requests.LoginRequest;
+import com.example.user.http.requests.RegisterRequest;
 import com.example.user.service.UserService;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.UserRepresentation;

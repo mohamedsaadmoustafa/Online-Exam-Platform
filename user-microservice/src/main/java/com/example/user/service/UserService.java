@@ -1,12 +1,10 @@
 package com.example.user.service;
 
-import static com.example.user.helper.Credentials.createPasswordCredentials;
-import static com.example.user.helper.validateRequests.validateRegisterRequest;
-import static com.example.user.helper.userRepresentation.createUserRepresentation;
 import com.example.user.config.KeycloakProvider;
 import com.example.user.controller.UserController;
 import com.example.user.http.requests.LoginRequest;
 import com.example.user.http.requests.RegisterRequest;
+import com.example.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RolesResource;
@@ -25,16 +23,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static com.example.user.helper.Credentials.createPasswordCredentials;
+import static com.example.user.helper.userRepresentation.createUserRepresentation;
+import static com.example.user.helper.validateRequests.validateRegisterRequest;
+
 @Slf4j
 @Service
 public class UserService {
     private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(UserController.class);
     private final KeycloakProvider keycloakProvider;
+    private final UserRepository userRepository;
     private final String realm;
 
-    public UserService(KeycloakProvider keycloakProvider, @Value("${keycloak.realm}") String realm) {
+    public UserService(
+            KeycloakProvider keycloakProvider,
+            @Value("${keycloak.realm}") String realm,
+            UserRepository userRepository
+    ) {
         this.keycloakProvider = keycloakProvider;
         this.realm = realm;
+        this.userRepository = userRepository;
     }
 
     public Response createKeycloakUser(RegisterRequest user) throws Exception {
@@ -76,8 +84,7 @@ public class UserService {
                 loginRequest.getUsername(),
                 loginRequest.getPassword()
         ).build();
-        AccessTokenResponse accessTokenResponse = keycloak.tokenManager().getAccessToken();
-        return accessTokenResponse;
+        return keycloak.tokenManager().getAccessToken();
     }
 
     public Set<UserRepresentation> getUsersByRole(String roleName) throws NotFoundException {

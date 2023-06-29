@@ -38,13 +38,15 @@ public class Consumer {
 
     @KafkaListener(topics = "${kafka.topics.EV1}")
     public void receiveNotification(NotificationModel notificationModel) throws FirebaseMessagingException {
-        this.firebaseMessagingService.sendNotification(notificationModel, "token");
+        this.firebaseMessagingService.sendNotification(notificationModel);
         log.info("Acknowledged message from Kafka topic: {} with id: {}", this.topicNameEV1, notificationModel.getUserId());
         this.notificationService.persistNotification(notificationModel);
     }
 
     @KafkaListener(topics = "${kafka.topics.EV3}")
     public void receiveNotificationSummary(@Payload ExamSummary examSummary) throws FirebaseMessagingException {
+        System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+
         NotificationModel notificationData = new NotificationModel();
         notificationData.setMessage("Exam summary is ready.");
         notificationData.setUserId(examSummary.getUserId());
@@ -52,14 +54,16 @@ public class Consumer {
         notificationData.setGeneratedLinkUrl("");
         notificationData.setNotificationType(NotificationModel.NotificationType.EXAM_SUMMARY);
 
-        this.firebaseMessagingService.sendNotification(notificationData, "token");
+        this.firebaseMessagingService.sendNotification(notificationData);
         log.info("Acknowledged message from Kafka topic: {} with id: {}", "${kafka.topics.EV3}", examSummary.getUserId());
         this.notificationService.persistNotification(notificationData);
     }
 
     @KafkaListener(topics = "${kafka.topics.EV2}")
     public void receiveNotificationWarning(NotificationModel notificationModel) throws FirebaseMessagingException {
-        this.firebaseMessagingService.sendNotification(notificationModel, "token");
+        System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+
+        this.firebaseMessagingService.sendNotification(notificationModel);
         this.notificationService.persistNotification(notificationModel);
     }
 
