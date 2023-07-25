@@ -2,12 +2,12 @@ importScripts('https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.7.0/firebase-messaging.js');
 
 firebase.initializeApp({
-  apiKey: "AIzaSyCjwGYK55ER3TdgjehITOvkQFykBC_hdqc",
-  authDomain: "exam-engine-microservice.firebaseapp.com",
-  projectId: "exam-engine-microservice",
-  storageBucket: "exam-engine-microservice.appspot.com",
-  messagingSenderId: "148184916689",
-  appId: "1:148184916689:web:f6ccbc67e2f0e0c6761bf0"
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
 });
 
 const messaging = firebase.messaging();
